@@ -1,5 +1,6 @@
 const Mock = require('mockjs')
 
+// 这里使用 mock js 模拟 url 传入的数据
 const data = Mock.mock({
   'items|30': [{
     id: '@id',
