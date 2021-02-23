@@ -11,33 +11,57 @@
     >
       <el-table-column align="center" label="ID" width="95">
         <template slot-scope="scope">
-          {{ scope.$index }}
+          {{ scope.$index + 1 }}
         </template>
       </el-table-column>
+      <!-- id -->
+      <el-table-column label="ItemID">
+        <template slot-scope="scope">
+          {{ scope.row.id }}
+        </template>
+      </el-table-column>
+      <!-- 标题 -->
       <el-table-column label="Title">
         <template slot-scope="scope">
           {{ scope.row.title }}
         </template>
       </el-table-column>
+      <!-- 作者 -->
       <el-table-column label="Author" width="110" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.author }}</span>
         </template>
       </el-table-column>
+      <!-- 页数 -->
       <el-table-column label="Pageviews" width="110" align="center">
         <template slot-scope="scope">
           {{ scope.row.pageviews }}
         </template>
       </el-table-column>
+      <!-- 状态 -->
       <el-table-column class-name="status-col" label="Status" width="110" align="center">
         <template slot-scope="scope">
           <el-tag :type="scope.row.status | statusFilter">{{ scope.row.status }}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column align="center" prop="created_at" label="Display_time" width="200">
+      <!-- 修改时间 -->
+      <!-- <el-table-column align="center" prop="created_at" label="Display_time" width="200">
         <template slot-scope="scope">
           <i class="el-icon-time" />
           <span>{{ scope.row.display_time }}</span>
+        </template>
+      </el-table-column> -->
+      <!-- 添加编辑 和 删除-->
+      <el-table-column label="Actions" align="center" width="230" class-name="small-padding fixed-width">
+        <!-- 什么是 slot-scope -->
+        <template slot-scope="scope">
+          <!-- 传入id作为参数 -->
+          <el-button type="primary" size="mini" @click="editItem(scope.row.id)">
+            编辑
+          </el-button>
+          <el-button size="mini" type="danger">
+            删除
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -60,17 +84,7 @@ export default {
   },
   data() {
     return {
-      // list: null,
-      list: [
-        {
-          id: 1,
-          title: "Test",
-          author: "Adam",
-          display_time: new Date(),
-          pageviews: 10,
-          
-        }
-      ],
+      list: null,
       listLoading: true
     }
   },
@@ -80,11 +94,14 @@ export default {
   methods: {
     fetchData() {
       this.listLoading = false
-      // this.listLoading = true    // flag变量，当获取信息成功之后改变flag值
-      // getList().then(response => {
-      //   this.list = response.data.items
-      //   this.listLoading = false
-      // })
+      this.listLoading = true    // flag变量，当获取信息成功之后改变flag值
+      getList().then(response => {
+        this.list = response.data.items
+        this.listLoading = false
+      })
+    },
+    editItem(id){
+      this.$router.push("/editproducts/index/" + id)   // 注意这里是 router，不是 route
     }
   }
 }
