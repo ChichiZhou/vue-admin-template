@@ -27,17 +27,17 @@
         </template>
       </el-table-column>
       <!-- 作者 -->
-      <el-table-column label="Author" width="110" align="center">
+      <!-- <el-table-column label="Author" width="110" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.author }}</span>
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <!-- 页数 -->
-      <el-table-column label="Pageviews" width="110" align="center">
+      <!-- <el-table-column label="Pageviews" width="110" align="center">
         <template slot-scope="scope">
           {{ scope.row.pageviews }}
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <!-- 状态 -->
       <el-table-column class-name="status-col" label="Status" width="110" align="center">
         <template slot-scope="scope">
@@ -59,7 +59,7 @@
           <el-button type="primary" size="mini" @click="editItem(scope.row.id)">
             编辑
           </el-button>
-          <el-button size="mini" type="danger">
+          <el-button size="mini" type="danger" @click="deleteItem(scope.$index, scope.row.id)">
             删除
           </el-button>
         </template>
@@ -69,7 +69,8 @@
 </template>
 
 <script>
-import { getList } from '@/api/table'
+// import { getList } from '@/api/table'
+// import { getTodoList } from '@/api/table'
 
 export default {
   filters: {
@@ -93,15 +94,26 @@ export default {
   },
   methods: {
     fetchData() {
+      var vm = this
       this.listLoading = false
       this.listLoading = true    // flag变量，当获取信息成功之后改变flag值
-      getList().then(response => {
-        this.list = response.data.items
+      this.axios
+        .get("http://localhost:9000/v1/todo")      // 这里本来应该是 9000 的 todo
+        .then(response => (vm.list = response.data));
+      // this.getTodoList().then(response => {
+      //   this.list = response.data
+      //   this.listLoading = false
+      // })
         this.listLoading = false
-      })
     },
     editItem(id){
       this.$router.push("/editproducts/index/" + id)   // 注意这里是 router，不是 route
+    },
+    deleteItem(index, id){
+      var vm = this
+      this.axios.delete("http://localhost:9000/v1/todo/" + id).then(
+        vm.list.splice(index, 1)
+      )
     }
   }
 }

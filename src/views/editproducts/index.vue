@@ -11,6 +11,10 @@
         <el-input v-model="form.title" />
       </el-form-item>
 
+      <!-- <el-form-item label="Item status">
+        <el-input v-model="form.status" />
+      </el-form-item> -->
+
       <!-- <el-form-item label="Activity zone">
         <el-select v-model="form.region" placeholder="please select your zone">
           <el-option label="Zone one" value="shanghai" />
@@ -55,8 +59,6 @@
 </template>
 
 <script>
-import { getItem } from '@/api/table'
-import { getList } from '@/api/table'
 
 export default {
   data() {
@@ -64,8 +66,6 @@ export default {
       form: {
         id: '',
         title: '',
-        author: '',
-        pageviews: '',
         status: ''
       }
     }
@@ -75,7 +75,28 @@ export default {
   },
   methods: {
     onSubmit() {
-      this.$message('submit!')
+      // this.$message('submit!')
+      var vm = this
+      console.log(vm.form.id)
+      this.axios.put(
+        "http://localhost:9000/v1/todo", 
+        {
+          id: vm.form.id,            // 这里要用 vm.form.id 不能直接用 vm.id
+          title: vm.form.title,
+          status: vm.form.status
+        }
+      ).then(
+        (response)=>{
+          this.$message({
+            showClose: true,
+            duration: 1500,
+            message: response.data.id,
+            type: "success"
+          });
+        }
+      )
+      console.log(vm.$route.params.id)
+      vm.$router.push("/example/table")
     },
     onCancel() {
       this.$message({
@@ -85,10 +106,10 @@ export default {
     },
     fetchDataById(){
       var inputId = this.$route.params.id
+      var vm = this
       console.log(inputId)
-      getItem().then(response => {
-        this.form = response.data.items[1]
-      })
+      this.axios.get("http://localhost:9000/v1/todo/" + inputId)
+      .then(response => (vm.form = response.data))
       // this.axios({
       //   method:'get',
       //   url: "/vue-admin-template/table/list",

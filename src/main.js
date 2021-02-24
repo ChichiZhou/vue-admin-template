@@ -38,6 +38,7 @@ Vue.use(ElementUI, { locale });
 Vue.config.productionTip = false;
 
 Vue.use(VueAxios, axios);
+
 new Vue({
   el: "#app",
   router,
