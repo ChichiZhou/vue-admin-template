@@ -107,6 +107,20 @@ export const constantRoutes = [
   },
 
   {
+    path: "/addproduct",
+    hidden: true, // 把这个标签隐藏了
+    component: Layout,
+    children: [
+      {
+        path: "index", // 这里是子路由的标签，:id 表示传递标签
+        name: "AddProduct",
+        component: () => import("@/views/addproduct/index"),
+        meta: { title: "AddProduct", icon: "form" }
+      }
+    ]
+  },
+
+  {
     path: "/nested",
     component: Layout,
     redirect: "/nested/menu1",

@@ -1,6 +1,9 @@
 <template>
   <div class="app-container">
     <!-- 当 listLoading 为 true 的时候，只显示 Loading，不显示别的 -->
+    <div align="right">
+        <el-button type="success" @click="addItem">Add Todo</el-button>
+    </div>
     <el-table
       v-loading="listLoading"
       :data="list"
@@ -114,6 +117,9 @@ export default {
       this.axios.delete("http://localhost:9000/v1/todo/" + id).then(
         vm.list.splice(index, 1)
       )
+    },
+    addItem(){
+      this.$router.push("/addproduct/index")
     }
   }
 }
