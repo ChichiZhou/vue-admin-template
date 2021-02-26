@@ -55,8 +55,6 @@
 </template>
 
 <script>
-import { getItem } from '@/api/table'
-import { getList } from '@/api/table'
 
 export default {
   data() {
@@ -64,8 +62,6 @@ export default {
       form: {
         id: '',
         title: '',
-        author: '',
-        pageviews: '',
         status: ''
       }
     }
@@ -75,7 +71,8 @@ export default {
   },
   methods: {
     onSubmit() {
-      this.$message('submit!')
+      var vm = this
+      this.axios.put("http://localhost:9000/v1/todo", {"id": vm.form.id, "title": vm.form.title, "status": false}).then(response => console.log(response.data))
     },
     onCancel() {
       this.$message({
@@ -83,7 +80,7 @@ export default {
         type: 'warning'
       })
     },
-    fetchDataById(){
+    fetchDataById() {
       var inputId = this.$route.params.id
       var vm = this
       this.axios.get("http://localhost:9000/v1/todo").then(response => vm.form = response.data[this.$route.params.id - 1])
@@ -91,16 +88,9 @@ export default {
       //   // 由于这里是 params.id，但是需要从数组中去找，所以有一个位的差别
       //   this.form = response.data.items[this.$route.params.id]
       //   console.log(response.data.oneItem)
-      // })
-      // this.axios({
-      //   method:'get',
-      //   url: "/vue-admin-template/table/list",
-      // }).then(function(response){
-      //   this.form = response.data.items[1]
-      // })
+      }
     }
   }
-}
 </script>
 
 <style scoped>
