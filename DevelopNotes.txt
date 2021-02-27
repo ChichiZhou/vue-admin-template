@@ -11,6 +11,14 @@
 2.methods 中的方法如何调用methods中的方法  
 3.mockjs 的使用
 4.前后端传递参数
+5.使用 axios 需要导入哪些包 npm install 什么？
+6.使用 Element-UI 需要导入哪些包 npm install 什么？
+7.store 是什么？？
+8.这里 为什么没有 <router-view> ??? 
+答： [因为这里用了 render: h => h(App)]
+9.路由结构，传统路由怎么写？新路由怎么写？
+
+
 
 
 

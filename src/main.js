@@ -8,6 +8,7 @@ import locale from "element-ui/lib/locale/lang/en"; // lang i18n
 
 import "@/styles/index.scss"; // global css
 
+// 导入第一个需要显示的界面
 import App from "./App";
 import store from "./store";
 import router from "./router";
@@ -15,6 +16,7 @@ import router from "./router";
 import "@/icons"; // icon
 import "@/permission"; // permission control
 
+// 导入 axios 包
 import axios from "axios";
 import VueAxios from "vue-axios";
 /**
@@ -39,6 +41,8 @@ Vue.config.productionTip = false;
 
 Vue.use(VueAxios, axios);
 
+// 如果要使用 router，则需要在 Vue 中添加 router
+// 这里为什么没有 <router-view> ??? 因为这里用了 render: h => h(App)
 new Vue({
   el: "#app",
   router,
